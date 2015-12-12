@@ -1,6 +1,6 @@
 {
   "name": "about-time",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Javascript library for managing and comparing Time, Duration, TimeSpan objects in manners similar to Date",
   "main": "index.js",
   "scripts": {

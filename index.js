@@ -142,7 +142,7 @@
 		}
 	});
 	function Duration(value,period) {
-		period || (period = "ms");
+		period = (period ? period : "ms");
 		if(value.constructor===Duration || value instanceof Duration) {
 			period = "ms";
 			value = value.valueOf();
@@ -175,7 +175,7 @@
 		if(value instanceof Duration && this.length < value.length) {
 			return true;
 		}
-		period || (period = "s");
+		period = (period ? period : "s");
 		return this.valueOf() / Duration.factors[period] < new Duration(value).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.lte = function(value,period) {
@@ -186,7 +186,7 @@
 		return this.valueOf() / Duration.factors[period] <= new Duration(value).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.eq = function(value,period) {
-		if(value===this || (value instanceof Duration && this.length == value.length)) {
+		if(value===this || (value instanceof Duration && this.length === value.length)) {
 			return true;
 		}
 		period || (period = "s");
@@ -265,9 +265,9 @@
 			starts = new Time(value.starts,precision).valueOf();
 			ends = new Time(value.ends,precision).valueOf();
 		} else {
-			starts = ends = new Time(value.valueOf(),precision);
+			starts = ends = new Time(value.valueOf(),precision).valueOf();
 		}
-		return this.starts==starts && this.ends==ends;
+		return this.starts===starts && this.ends===ends;
 	}
 	TimeSpan.prototype.eq = function(value,precision) {
 		if(this===value) {
@@ -313,7 +313,7 @@
 		} else {
 			ends = new Time(value,precision);
 		}
-		return new Time(this.starts-new Duration(1,precision),precision).valueOf() == ends.valueOf();
+		return new Time(this.starts-new Duration(1,precision),precision).valueOf() === ends.valueOf();
 	}
 	TimeSpan.prototype.adjacent = function(value,precision) {
 		if(this.adjacentBefore(value,precision)) {
@@ -325,7 +325,7 @@
 		return 0;
 	}
 	
-	if (typeof(module) != 'undefined' && module.exports) {
+	if (typeof(module) !== 'undefined' && module.exports) {
 		module.exports.Time = Time;
 		module.exports.Duration = Duration;
 		module.exports.TimeSpan = TimeSpan;
