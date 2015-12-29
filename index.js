@@ -22,6 +22,9 @@
 			this.toPrecision(precision,true);
 		}
 	}
+	Time.revive = function(data) {
+		return new Time(data.milliseconds);
+	}
 	Time.prototype.valueOf = function() {
 		return this.milliseconds;
 	}
@@ -160,6 +163,9 @@
 		s: 1000,
 		ms: 1
 	}
+	Duration.revive = function(data) {
+		return new Duration(data.length);
+	}
 	Object.defineProperty(Duration.prototype,"years",{enumerable:true,configurable:false,set:function() { return;},get:function() { return this.length/Duration.factors.Y; }});
 	Object.defineProperty(Duration.prototype,"months",{enumerable:true,configurable:false,set:function() { return;},get:function() { return this.length/Duration.factors.M; }});
 	Object.defineProperty(Duration.prototype,"weeks",{enumerable:true,configurable:false,set:function() { return;},get:function() { return this.length/Duration.factors.W; }});
@@ -229,6 +235,9 @@
 		this.starts = (starts!=null ? new Time(starts).valueOf() : new Time(-Infinity).valueOf());
 		this.ends = (ends!=null ? new Time(ends).valueOf() : new Time(Infinity).valueOf());
 		Object.defineProperty(this,"duration",{enumerable:false,configurable:false,get:function() { return this.ends - this.starts}, set: function() {}});
+	}
+	TimeSpan.revive = function(data) {
+		return new TimeSpan(data.starts,data.ends);
 	}
 	TimeSpan.prototype.contains = function(value,precision) {
 		var starts, ends, time;
