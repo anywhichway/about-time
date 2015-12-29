@@ -5,6 +5,8 @@ Javascript  library for managing and comparing Time, Duration, TimeSpan objects 
 
 # Updates (reverse chronological order)
 
+015-12-29 v0.0.6 Added more unit tests
+
 015-12-29 v0.0.5 Added revivers and unit tests
 
 2015-12-12 v0.0.4 Codacy driven improvements

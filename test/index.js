@@ -8,9 +8,20 @@ if(typeof(window)==="undefined") {
 
 
 describe('Time', function() {
-  var name = TestObject.name;
-  it('should revive', function(done) {
+  it('should revive', function() {
 	  	var result = Time.revive({milliseconds:1});
 		expect(result).to.be.instanceof(Time);
 	  });
 });
+describe('Duration', function() {
+	  it('should revive', function() {
+		  	var result = Duration.revive({length:1});
+			expect(result).to.be.instanceof(Duration);
+		  });
+	});
+describe('TimeSpan', function() {
+	  it('should revive', function() {
+		  	var result = TimeSpan.revive({starts:1,ends:2});
+			expect(result).to.be.instanceof(TimeSpan);
+		  });
+	});
