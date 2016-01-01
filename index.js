@@ -436,7 +436,7 @@ if(typeof(ReadOnlyError)==="undefined") {
 		if(value instanceof TimeSpan) {
 			return value.coincident(this,precision);
 		}
-		return new Time(this,precision).valueOf() == new Time(value,precision).valueOf();
+		return new Time(this,precision).valueOf() === new Time(value,precision).valueOf();
 	}
 	Date.prototype.eeq = function(value) {
 		return this===value;
