@@ -50,7 +50,13 @@ if(typeof(ReadOnlyError)==="undefined") {
 		if(!(data instanceof Object)) {
 			throw new TypeError("argument to Time.revive must be an instanceof Object");
 		}
-		return new Time(data.milliseconds,data.precision);
+		var instance = new Time(data.milliseconds,data.precision);
+		for(var key in data) {
+			if(["milliseconds","precision"].indexOf(key)===-1) {
+				instance[key] = data[key];
+			}
+		}
+		return instance;
 	}
 	Time.prototype.toJSON = function() {
 		return {milliseconds: this.milliseconds, precision:this.__precision__};
@@ -230,7 +236,13 @@ if(typeof(ReadOnlyError)==="undefined") {
 		if(!(data instanceof Object)) {
 			throw new TypeError("argument to Duration.revive must be an instanceof Object");
 		}
-		return new Duration(data.count,data.period,data.range);
+		var instance = new Duration(data.count,data.period,data.range);
+		for(var key in data) {
+			if(["count","period","range"].indexOf(key)===-1) {
+				instance[key] = data[key];
+			}
+		}
+		return instance;
 	}
 	Duration.prototype.toJSON = function() {
 		return {count: this.count, period: this.period, range: this.range};
@@ -310,7 +322,13 @@ if(typeof(ReadOnlyError)==="undefined") {
 		Object.defineProperty(this,"duration",{enumerable:true,configurable:false,get:function() { return this.ends - this.starts}, set: function() { throw new AccessError("w","duration");}});
 	}
 	TimeSpan.revive = function(data) {
-		return new TimeSpan(data.starts,data.ends);
+		var instance = new TimeSpan(data.starts,data.ends);
+		for(var key in data) {
+			if(["starts","ends"].indexOf(key)===-1) {
+				instance[key] = data[key];
+			}
+		}
+		return instance;
 	}
 	TimeSpan.prototype.toJSON = function() {
 		return {starts: this.starts, ends:this.ends};
