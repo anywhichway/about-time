@@ -12,29 +12,6 @@ if(typeof(ReadOnlyError)==="undefined") {
 	AccessError.prototype = Object.create(Error.prototype);
 	AccessError.prototype.constructor = AccessError;
 }
-// http://www.pilcrow.nl/2012/09/javascript-date-isleapyear-and-getlastdayofmonth
-//Date functions. (Caveat: months start at 0!)
-Date.isLeapYear = function (iYear)
-{
-	return new Date(iYear, 1, 29).getDate() == 29;
-};
-Date.prototype.isLeapYear = function ()
-{
-	return Date.isLeapYear(this.getFullYear());
-};
- 
-Date.getLastDayOfMonth = function (iMonth, iYear)
-{
-	if (/^([024679]|11)$/.test(iMonth))
-		return 31;
-	if (/^[358]$/.test(iMonth))
-		return 30;
-	return Date.isLeapYear(iYear) ? 29 : 28;
-};
-Date.prototype.getLastDayOfMonth = function ()
-{
-	return Date.getLastDayOfMonth(this.getMonth(), this.getFullYear());
-};
 (function() {
 	"use strict";
 	var _global = this;
@@ -83,7 +60,6 @@ Date.prototype.getLastDayOfMonth = function ()
 			return this.milliseconds;
 		}
 		var dt = new Date(this.milliseconds);
-		var Y1 = dt.getFullYear();
 		var M1 = (["M","D","h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getMonth() : 0);
 		var D1 = (["D","h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getDate() : 1);
 		var h1 = (["h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getHours() : 0);
@@ -436,6 +412,73 @@ Date.prototype.getLastDayOfMonth = function ()
 			return 1;
 		}
 		return 0;
+	}
+	
+	Date.prototype.lt = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			return value.after(this,precision);
+		}
+		return new Time(this,precision) < new Time(value,precision);
+	}
+	Date.prototype.lte = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			return value.adjacentOrAfter(this,precision);
+		}
+		return new Time(this,precision) <= new Time(value,precision);
+	}
+	Date.prototype.eq = function(value,precision) {
+		if(value===this) {
+			return true;
+		}
+		if(value instanceof Date && this.time===value.time) {
+			return true;
+		}
+		if(value instanceof TimeSpan) {
+			return value.coincident(this,precision);
+		}
+		return new Time(this,precision).valueOf() == new Time(value,precision).valueOf();
+	}
+	Date.prototype.eeq = function(value) {
+		return this===value;
+	}
+	Date.prototype.neq = function(value,precision) {
+		return new Time(this,precision).valueOf() !== new Time(value,precision).valueOf();
+	}
+	Date.prototype.neeq = function(value) {
+		return this!==value;
+	}
+	Date.prototype.gte = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			return value.adjacentOrBefore(this,precision);
+		}
+		return new Time(this,precision).valueOf() >= new Time(value,precision).valueOf();
+	}
+	Date.prototype.gt = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			return value.adjacentOrBefore(this,precision);
+		}
+		return new Time(this,precision).valueOf() >= new Time(value,precision).valueOf();
+	}
+	Date.prototype.coincident = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			var d = new TimeSpan(this,this);
+			return d.coincident(value,precision);
+		}
+		return this.eq(value,precision);
+	}
+	Date.prototype.disjoint = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			var d = new TimeSpan(this,this);
+			return d.disjoint(value,precision);
+		}
+		return this.neq(value,precision);
+	}
+	Date.prototype.intersects = function(value,precision) {
+		if(value instanceof TimeSpan) {
+			var d = new TimeSpan(this,this);
+			return d.intersects(value,precision);
+		}
+		return this.eq(value,precision);
 	}
 	
 	if (typeof(module) !== 'undefined' && module.exports) {

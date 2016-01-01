@@ -1,8 +1,9 @@
 {
   "name": "about-time",
-  "version": "0.0.6",
+  "version": "0.1.1",
   "description": "Javascript library for managing and comparing Time, Duration, TimeSpan objects in manners similar to Date",
   "main": "index.js",
+  "isomorphic":true,
   "scripts": {
     "test": "istanbul cover node_modules/mocha/bin/_mocha"
   },

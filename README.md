@@ -140,11 +140,13 @@ The following properties are READONLY:
 
 # Updates (reverse chronological order)
 
-015-12-31 v0.1.0 Added toJSON, documentation and more unit tests. The behavior of Time changed substantially. The property *.milliseconds* is no longer modified when precision is changed. Instead, *.precision* is stored on the instance and *.valueOf()* returns the appropriate milliseconds. The behavior of Duration changed substantially. The properties *.period* and .*count* are now exposed and *.length* is computed dynamically. And, *.years, .quarters, .months, .weeks, .days, .hours, .minutes, .seconds, .milliseconds.* are READONLY.The TimeSpan objects eliminated the methods adjacentOrBefore and adjacentOrAfter and fixed bugs related to intersection and leap years.
+2015-12-31 v0.1.1 Removed Date object extensions that are not dependent on Time, Duration, TimeSpan. Moved Date object extensions from joex to this file where such extensions depend on Time, Duration, or TimeSpan
 
-015-12-29 v0.0.6 Added more unit tests
+2015-12-31 v0.1.0 Added toJSON, documentation and more unit tests. The behavior of Time changed substantially. The property *.milliseconds* is no longer modified when precision is changed. Instead, *.precision* is stored on the instance and *.valueOf()* returns the appropriate milliseconds. The behavior of Duration changed substantially. The properties *.period* and .*count* are now exposed and *.length* is computed dynamically. And, *.years, .quarters, .months, .weeks, .days, .hours, .minutes, .seconds, .milliseconds.* are READONLY.The TimeSpan objects eliminated the methods adjacentOrBefore and adjacentOrAfter and fixed bugs related to intersection and leap years.
 
-015-12-29 v0.0.5 Added revivers and unit tests
+2015-12-29 v0.0.6 Added more unit tests
+
+2015-12-29 v0.0.5 Added revivers and unit tests
 
 2015-12-12 v0.0.4 Codacy driven improvements
 
