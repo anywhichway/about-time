@@ -3,6 +3,18 @@ Javascript browser and server library for managing, comparing, and doing arithme
 
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/44679d69e6a749d29cb67c75b2212951)](https://www.codacy.com/app/syblackwell/about-time)
 
+### Philosophy
+
+The classes in about-time were originally part of [JOQULAR](http://www.github.com/anywhichway/joqular) v1 in order to support temporal database logic. Because they are generically useful and in order to simplify the code base of JOQULAR in preparation for release of JOQULAR v2, they were extracted into their own library and re-written.
+
+The design philosophy involves making objects more declarative than is typical with Javascript because we find this leads to more concise and less bug prone code. It also happens to be useful when indexing objects for JOQULAR or other JSON data stores. This is accomplished through the use of Object.defineProperty on class prototypes to create virtual properties with get and set functions hidden from the application implementor, e.g. 
+
+```Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,set:function(value) { this.setFullYear(value); },get:function() {return this.getFullYear();}).```
+
+Note, the property is enumerable; however, since it is not semantically necessary for serializing and restoring, a toJSON method is also defined, i.e.
+
+```Time.prototype.toJSON = function() { return {milliseconds: this.milliseonds, precisions: this.precision} }```
+
 # Installation
 
 npm install about-time
@@ -23,6 +35,8 @@ Time, Duration, TimeSpan all support .toJSON and .revive.
 
 *.revive(object)* - will return an instance based on properties of the provided object. A TypeError is thrown if insufficient data is available.
 
+They all also support the comparison functions: *.lt, .lte, .eq, .neq, .gte, .gt*.
+
 
 ## Time
 
@@ -34,13 +48,13 @@ Time, Duration, TimeSpan all support .toJSON and .revive.
 
 *.milliseconds* - The number of milliseconds since January 1, 1970 used as a basis for computing *.valueOf()* at *.precision*.
 
-*.precision* - one of "Y","M","D","h","m","s","ms".
+*.precision* - one of "Y","M","D","h","m","s","ms". 
 
 ### Methods
 
 Time supports all the methods supported by Date.
 
-*.lt(time[,precision="ms"])* - Returns true if instance is less than *value* at the specified *precision*, "Y","M","D","h","m","s","ms". Value must be another time instance, or something that can be coerced into a Time instance. Comparisons are done at the specified precision, or the precision set for the instance.
+*.lt(time[,precision="ms"])* - Returns true if instance is less than *value* at the specified *precision*, "Y","M","D","h","m","s","ms". Value must be another time instance, or something that can be coerced into a Time instance. Comparisons are done at the specified precision, or the precision set for the instance. Unlike Duration, Time does not yet support precision at the (Q)uarter or (W)eek level.
 
 Time also supports *.lte, .eq, .neq .gte, .gt*.
 
@@ -98,7 +112,12 @@ These properties are READONLY and may be fractions: *.years, .quarters, .months,
 
 ### Methods
 
+*.lt(time[,precision="ms"])* - Returns true if instance is less than *value* at the specified *precision*, "Y","Q","M","W","D","h","m","s","ms". Value must be another time instance, or something that can be coerced into a Time instance. Comparisons are done at the specified precision.
+
+Duration also supports *.lte, .eq, .neq .gte, .gt*.
+
 *.toJSON* - returns {count: this.count, period: this.period, range: this.range}
+
 
 ## TimeSpan
 

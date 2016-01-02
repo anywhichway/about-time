@@ -46,6 +46,13 @@ if(typeof(ReadOnlyError)==="undefined") {
 		}});
 		this.precision = precision;
 	}
+	Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,configurable:false,set:function(value) {  return this.setFullYear(value);},get:function() { return this.getFullYear(); }});
+	Object.defineProperty(Time.prototype,"month",{enumerable:true,configurable:false,set:function(value) {  this.setMonth(value);},get:function() { return this.getMonth(); }});
+	Object.defineProperty(Time.prototype,"day",{enumerable:true,configurable:false,set:function(value) {  this.setDate(value);},get:function() { return this.getDate(); }});
+	Object.defineProperty(Time.prototype,"hours",{enumerable:true,configurable:false,set:function(value) {  this.setHours(value);},get:function() { return this.getHours(); }});
+	Object.defineProperty(Time.prototype,"minutes",{enumerable:true,configurable:false,set:function(value) {  this.setMinutes(value);},get:function() { return this.getMinutes(); }});
+	Object.defineProperty(Time.prototype,"seconds",{enumerable:true,configurable:false,set:function(value) {  this.setSeconds(value);},get:function() { return this.getSeconds(); }});
+	Object.defineProperty(Time.prototype,"milliseconds",{enumerable:true,configurable:false,set:function(value) {  this.setMilliseconds(value);},get:function() { return this.getMilliseconds(); }});
 	Time.revive = function(data) {
 		if(!(data instanceof Object)) {
 			throw new TypeError("argument to Time.revive must be an instanceof Object");

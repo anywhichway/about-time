@@ -64,6 +64,37 @@ describe('Time', function() {
 	  	var t1 = new Time(1,"Y");
 	  	expect(t1.getSeconds()).to.be.equal(0);
   });
+  describe('Declaritive Code', function() {
+	  var t1 = new Time();
+	 it('should support fullYear',function() {
+		 t1.fullYear = 2015;
+		 expect(t1.fullYear).to.be.equal(2015);
+	 });
+	 it('should support month',function() {
+		 t1.month = 1;
+		 expect(t1.month).to.be.equal(1);
+	 });
+	 it('should support day',function() {
+		 t1.day = 1;
+		 expect(t1.day).to.be.equal(1);
+	 });
+	 it('should support hours',function() {
+		 t1.hours = 0;
+		 expect(t1.hours).to.be.equal(0);
+	 });
+	 it('should support minutes',function() {
+		 t1.minutes = 0;
+		 expect(t1.minutes).to.be.equal(0);
+	 });
+	 it('should support seconds',function() {
+		 t1.seconds = 0;
+		 expect(t1.seconds).to.be.equal(0);
+	 });
+	 it('should support milliseconds',function() {
+		 t1.milliseconds = 0;
+		 expect(t1.milliseconds).to.be.equal(0);
+	 });
+  });
   describe('Comparisons',function() {
 	  it('.lt should return true if t1 is < t2', function() {
 		  	var t1 = new Time(1), t2 = new Time(2);
@@ -85,9 +116,33 @@ describe('Time', function() {
 		  	var t1 = new Time(1);
 		  	expect(t1.eq(t1)).to.be.true;
 	  });
+	  it('.eq should return true if t1 == t2 at precision', function() {
+		  	var t1 = new Time(1), t2 = new Time(1);
+		  	expect(t1.eq(t2,"Y")).to.be.true;
+	  });
 	  it('.eq should return true if t1 == t2', function() {
 		  	var t1 = new Time(1), t2 = new Time(1);
-		  	expect(t1.eq(t2)).to.be.true;
+		  	expect(t1.eq(t2,"M")).to.be.true;
+	  });
+	  it('.eq should return true if t1 == t2', function() {
+		  	var t1 = new Time(1), t2 = new Time(1);
+		  	expect(t1.eq(t2,"D")).to.be.true;
+	  });
+	  it('.eq should return true if t1 == t2', function() {
+		  	var t1 = new Time(1), t2 = new Time(1);
+		  	expect(t1.eq(t2,"h")).to.be.true;
+	  });
+	  it('.eq should return true if t1 == t2', function() {
+		  	var t1 = new Time(1), t2 = new Time(1);
+		  	expect(t1.eq(t2,"m")).to.be.true;
+	  });
+	  it('.eq should return true if t1 == t2', function() {
+		  	var t1 = new Time(1), t2 = new Time(1);
+		  	expect(t1.eq(t2,"s")).to.be.true;
+	  });
+	  it('.eq should return true if t1 == t2', function() {
+		  	var t1 = new Time(1), t2 = new Time(1);
+		  	expect(t1.eq(t2,"ms")).to.be.true;
 	  });
 	  it('.eq should return false if precisions differ', function() {
 		  	var t1 = new Time(1,"Y"), t2 = new Time(1,"M");
@@ -171,26 +226,54 @@ describe('Duration', function() {
 		  	expect(d1.lt(d2,"ms")).to.be.true;
 	  });
 	  it('.lt should return false if d1 is not < d2', function() {
-		  	var d1 = new Duration(1), d2 = new Duration(1);
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
 		  	expect(d1.lt(d2)).to.be.false;
 	  });
 	  it('.lte should return true if d1 is <= d2', function() {
-		  	var d1 = new Duration(1), d2 = new Duration(2);
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(2,"Y");
 		  	expect(d1.lte(d2)).to.be.true;
 	  });
 	  it('.lte should return false if d1 is not <= d2', function() {
-		  	var d1 = new Duration(1), d2 = new Duration(0);
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(0,"Y");
 		  	expect(d1.lt(d2)).to.be.false;
 	  });
 	  it('.eq should return true if d1 == d1', function() {
-		  	var d1 = new Duration(1);
+		  	var d1 = new Duration(1,"Y");
 		  	expect(d1.eq(d1)).to.be.true;
 	  });
-	  it('.eq should return true if d1 == d2', function() {
-		  	var d1 = new Duration(1), d2 = new Duration(1);
-		  	expect(d1.eq(d2)).to.be.true;
+	  it('.eq should return true if d1 == d2 at precision Y', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"Y")).to.be.true;
 	  });
-	  it('.eq should return false if precisions differ', function() {
+	  it('.eq should return true if d1 == d2 at precision Q', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"Q")).to.be.true;
+	  });
+	  it('.eq should return true if d1 == d2 at precision M', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"M")).to.be.true;
+	  });
+	  it('.eq should return true if d1 == d2 at precision D', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"D")).to.be.true;
+	  });
+	  it('.eq should return true if d1 == d2 at precision h', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"h")).to.be.true;
+	  });
+	  it('.eq should return true if d1 == d2 at precision m', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"m")).to.be.true;
+	  });
+	  it('.eq should return true if d1 == d2 at precision s', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"s")).to.be.true;
+	  });
+	  it('.eq should return true if d1 == d2 at precision ms', function() {
+		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"Y");
+		  	expect(d1.eq(d2,"ms")).to.be.true;
+	  });
+	  it('.eq should return false if periods differ', function() {
 		  	var d1 = new Duration(1,"Y"), d2 = new Duration(1,"M");
 		  	expect(d1.eq(d2)).to.be.false;
 	  });
@@ -310,6 +393,18 @@ describe('TimeSpan', function() {
 	it('ts1 coincident ts2', function() {
 		var ts1 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0)), ts2 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0));
 		expect(ts1.coincident(ts2)).to.be.true;
+	});
+	it('ts1 eq ts2 by object', function() {
+		var ts1 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0)), ts2 = ts1;
+		expect(ts1.eq(ts2)).to.be.true;
+	});
+	it('ts1 eq ts2 by value', function() {
+		var ts1 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0)), ts2 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0));
+		expect(ts1.eq(ts2)).to.be.true;
+	});
+	it('ts1 eq ts2 by value at precision', function() {
+		var ts1 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0)), ts2 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0));
+		expect(ts1.coincident(ts2,"Y")).to.be.true;
 	});
   });
 });
