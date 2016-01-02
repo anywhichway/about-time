@@ -439,19 +439,20 @@ if(typeof(ReadOnlyError)==="undefined") {
 		return 0;
 	}
 	
-	Date.prototype.lt = function(value,precision) {
+	var ExtendedDate = Date;
+	ExtendedDate.prototype.lt = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			return value.after(this,precision);
 		}
 		return new Time(this,precision) < new Time(value,precision);
 	}
-	Date.prototype.lte = function(value,precision) {
+	ExtendedDate.prototype.lte = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			return value.adjacentOrAfter(this,precision);
 		}
 		return new Time(this,precision) <= new Time(value,precision);
 	}
-	Date.prototype.eq = function(value,precision) {
+	ExtendedDate.prototype.eq = function(value,precision) {
 		if(value===this) {
 			return true;
 		}
@@ -463,48 +464,49 @@ if(typeof(ReadOnlyError)==="undefined") {
 		}
 		return new Time(this,precision).valueOf() === new Time(value,precision).valueOf();
 	}
-	Date.prototype.eeq = function(value) {
+	ExtendedDate.prototype.eeq = function(value) {
 		return this===value;
 	}
-	Date.prototype.neq = function(value,precision) {
+	ExtendedDate.prototype.neq = function(value,precision) {
 		return new Time(this,precision).valueOf() !== new Time(value,precision).valueOf();
 	}
-	Date.prototype.neeq = function(value) {
+	ExtendedDate.prototype.neeq = function(value) {
 		return this!==value;
 	}
-	Date.prototype.gte = function(value,precision) {
+	ExtendedDate.prototype.gte = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			return value.adjacentOrBefore(this,precision);
 		}
 		return new Time(this,precision).valueOf() >= new Time(value,precision).valueOf();
 	}
-	Date.prototype.gt = function(value,precision) {
+	ExtendedDate.prototype.gt = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			return value.adjacentOrBefore(this,precision);
 		}
 		return new Time(this,precision).valueOf() >= new Time(value,precision).valueOf();
 	}
-	Date.prototype.coincident = function(value,precision) {
+	ExtendedDate.prototype.coincident = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			var d = new TimeSpan(this,this);
 			return d.coincident(value,precision);
 		}
 		return this.eq(value,precision);
 	}
-	Date.prototype.disjoint = function(value,precision) {
+	ExtendedDate.prototype.disjoint = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			var d = new TimeSpan(this,this);
 			return d.disjoint(value,precision);
 		}
 		return this.neq(value,precision);
 	}
-	Date.prototype.intersects = function(value,precision) {
+	ExtendedDate.prototype.intersects = function(value,precision) {
 		if(value instanceof TimeSpan) {
 			var d = new TimeSpan(this,this);
 			return d.intersects(value,precision);
 		}
 		return this.eq(value,precision);
 	}
+	Date = ExtendedDate;
 	
 	if (typeof(module) !== 'undefined' && module.exports) {
 		module.exports.Time = Time;
