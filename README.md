@@ -44,7 +44,7 @@ They all also support the comparison functions: *.lt, .lte, .eq, .neq, .gte, .gt
 
 *new Time([(milliseconds|Date|TimeSpan|datestring)=new Date()[,precision)* - Constructs a Time instance from a value of one of the types at the provided precision, "Y","M","D","h","m","s","ms". The time is represented internally as the number of milliseconds since January 1st, 1970. The values -Infinity and Infinity are legal for milliseconds. If no first argument is provided, the Time defaults to the current time by using new Date().
 
-Precision boundaries exist at the lowest number of milliseconds required to represent the Time; hence, a year precision has less milliseconds than a month precision.
+Precision boundaries exist at the lowest number of milliseconds required to represent the Time; hence, a year precision has less milliseconds than a month precision. For example, "Y" is effectively represented by converting an internal value to *new Date(this.getFullYear(),0)*.
 
 ### Properties
 
