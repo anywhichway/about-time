@@ -11,12 +11,12 @@ describe('Time', function() {
 	  it('new Time() should default to now', function() {
 		 var now = new Date();
 		 var t1 = new Time();
-		 var result = t1.milliseconds - now.getTime();
+		 var result = t1.time - now.getTime();
 		 expect(result).to.be.within(0,1);
 	  });
   });
   it('should revive', function() {
-	  	var result = Time.revive({milliseconds:1});
+	  	var result = Time.revive({time:1});
 		expect(result).to.be.instanceof(Time);
   });
   it('.revive should throw TypeError if argument is not an instanceof Object', function() {
@@ -31,7 +31,7 @@ describe('Time', function() {
   it('.revive should throw TypeError if milliseconds is not a real number', function() {
 	  var result;
 	  try {
-	  	result = Time.revive({milliseconds:NaN});
+	  	result = Time.revive({time:NaN});
 	  } catch(e) {
 		  result = e;
 	  }
@@ -39,7 +39,7 @@ describe('Time', function() {
   });
   it('should stringify', function() {
 	  	var result = JSON.stringify(new Time(1));
-		expect(result).to.equal('{"milliseconds":1,"precision":"ms"}');
+		expect(result).to.equal('{"time":1,"precision":"ms"}');
   });
   it('new should support precision', function() {
 	  	var result = new Time(1,"Y");
@@ -49,7 +49,7 @@ describe('Time', function() {
 	  	var t1 = new Time(1,"Y");
 	  	var t2 = new Time(1);
 	  	t2.toPrecision("Y",true);
-	  	expect(t1.milliseconds).to.be.equal(t2.milliseconds);
+	  	expect(t1.time).to.be.equal(t2.time);
   });
   it('.toPrecision should validate precision argument', function() {
 	  	var result, t1 = new Time(1);

@@ -15,28 +15,31 @@ if(typeof(ReadOnlyError)==="undefined") {
 (function() {
 	"use strict";
 	var _global = this;
+	
 	function Time(value,precision) {
 		if(value==null) {
 			value = new Date().getTime()
 		} else if(value.constructor===Time || value instanceof Time) {
 			precision = (precision ? precision : value.precision);
-			value = value.milliseconds;
+			value = value.time;
 		} else if(value instanceof Date) {
 			value = value.getTime();
 		} else if(value instanceof TimeSpan) {
 			value = value.starts.valueOf();
 		} else if(typeof(value)==="string") {
 			value = Date.parse(value);
+		} else {
+			value = value.valueOf();
 		}
 		precision = (precision ? precision : "ms");
-		Object.defineProperty(this,"__milliseconds__",{enumerable:false,configurable:true,writable:true,value:undefined});
-		Object.defineProperty(this,"milliseconds",{enumerable:false,configurable:true,get:function() { return this.__milliseconds__; },set:function(milliseconds) {
+		Object.defineProperty(this,"__time__",{enumerable:false,configurable:true,writable:true,value:undefined});
+		Object.defineProperty(this,"time",{enumerable:true,configurable:true,get:function() { return this.__time__; },set:function(milliseconds) {
 			if(isNaN(milliseconds)) {
-				throw new TypeError("Time milliseconds mut be real number.");
+				throw new TypeError("time must be real number.");
 			}
-			this.__milliseconds__ = milliseconds;
+			this.__time__ = milliseconds;
 		}});
-		this.milliseconds = value;
+		this.time = value;
 		Object.defineProperty(this,"__precision__",{enumerable:false,configurable:true,writable:true,value:undefined});
 		Object.defineProperty(this,"precision",{enumerable:true,configurable:true,get:function() { return this.__precision__; },set:function(value) {
 			if(["Y","M","D","h","m","s","ms"].indexOf(value)===-1) {
@@ -46,39 +49,42 @@ if(typeof(ReadOnlyError)==="undefined") {
 		}});
 		this.precision = precision;
 	}
-	Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,configurable:false,set:function(value) {  return this.setFullYear(value);},get:function() { return this.getFullYear(); }});
-	Object.defineProperty(Time.prototype,"month",{enumerable:true,configurable:false,set:function(value) {  this.setMonth(value);},get:function() { return this.getMonth(); }});
-	Object.defineProperty(Time.prototype,"day",{enumerable:true,configurable:false,set:function(value) {  this.setDate(value);},get:function() { return this.getDate(); }});
-	Object.defineProperty(Time.prototype,"hours",{enumerable:true,configurable:false,set:function(value) {  this.setHours(value);},get:function() { return this.getHours(); }});
-	Object.defineProperty(Time.prototype,"minutes",{enumerable:true,configurable:false,set:function(value) {  this.setMinutes(value);},get:function() { return this.getMinutes(); }});
-	Object.defineProperty(Time.prototype,"seconds",{enumerable:true,configurable:false,set:function(value) {  this.setSeconds(value);},get:function() { return this.getSeconds(); }});
-	Object.defineProperty(Time.prototype,"milliseconds",{enumerable:true,configurable:false,set:function(value) {  this.setMilliseconds(value);},get:function() { return this.getMilliseconds(); }});
+	Object.defineProperty(Time.prototype,"year",{enumerable:true,configurable:true,set:function(value) {  return this.setFullYear(value);},get:function() { return (new Date(this.valueOf())).getFullYear(); }});
+	Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,configurable:true,set:function(value) {  return this.setFullYear(value);},get:function() { return (new Date(this.valueOf())).getFullYear(); }});
+	Object.defineProperty(Time.prototype,"month",{enumerable:true,configurable:true,set:function(value) {  this.setMonth(value);},get:function() { return (new Date(this.valueOf())).getMonth(); }});
+	Object.defineProperty(Time.prototype,"dayOfMonth",{enumerable:true,configurable:true,set:function(value) {  this.setDate(value);},get:function() { return (new Date(this.valueOf())).getDate(); }});
+	Object.defineProperty(Time.prototype,"hours",{enumerable:true,configurable:true,set:function(value) {  this.setHours(value);},get:function() { return (new Date(this.valueOf())).getHours(); }});
+	Object.defineProperty(Time.prototype,"minutes",{enumerable:true,configurable:true,set:function(value) {  this.setMinutes(value);},get:function() { return (new Date(this.valueOf())).getMinutes(); }});
+	Object.defineProperty(Time.prototype,"seconds",{enumerable:true,configurable:true,set:function(value) {  this.setSeconds(value);},get:function() { return (new Date(this.valueOf())).getSeconds(); }});
+	Object.defineProperty(Time.prototype,"milliseconds",{enumerable:true,configurable:true,set:function(value) {  this.setMilliseconds(value);},get:function() { return (new Date(this.valueOf())).getMilliseconds(); }});
 	Time.revive = function(data) {
 		if(!(data instanceof Object)) {
 			throw new TypeError("argument to Time.revive must be an instanceof Object");
 		}
-		var instance = new Time(data.milliseconds,data.precision);
+		var instance = new Time(data.time,data.precision);
 		for(var key in data) {
-			if(["milliseconds","precision"].indexOf(key)===-1) {
+			if(["time","precision"].indexOf(key)===-1) {
 				instance[key] = data[key];
 			}
 		}
 		return instance;
 	}
 	Time.prototype.toJSON = function() {
-		return {milliseconds: this.milliseconds, precision:this.__precision__};
+		return {time: this.time, precision:this.__precision__};
 	}
 	Time.prototype.valueOf = function() {
-		if(this.milliseconds===Infinity || this.milliseconds===-Infinity || isNaN(this.milliseconds)) {
-			return this.milliseconds;
+		if(this.time===Infinity || this.time===-Infinity || isNaN(this.time)) {
+			return this.time;
 		}
-		var dt = new Date(this.milliseconds);
-		var M1 = (["M","D","h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getMonth() : 0);
-		var D1 = (["D","h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getDate() : 1);
-		var h1 = (["h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getHours() : 0);
-		var m1 = (["m","s","ms"].indexOf(this.precision)>=0 ? dt.getMinutes() : 0);
-		var s1 = (["s","ms"].indexOf(this.precision)>=0 ? dt.getSeconds() : 0);
-		var ms1 = (["ms"].indexOf(this.precision)>=0 ? dt.getMilliseconds() : 0);
+		var dt = new Date(this.time), yr = dt.getFullYear();
+		var M1, D1, h1, m1, s1, ms1;
+		M1 = (["M","D","h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getMonth() : 0);
+		D1 = (["D","h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getDate() : 1);
+		h1 = (["h","m","s","ms"].indexOf(this.precision)>=0 ? dt.getHours() : 0);
+		m1 = (["m","s","ms"].indexOf(this.precision)>=0 ? dt.getMinutes() : 0);
+		s1 = (["s","ms"].indexOf(this.precision)>=0 ? dt.getSeconds() : 0);
+		ms1 = (["ms"].indexOf(this.precision)>=0 ? dt.getMilliseconds() : 0);
+		dt = new Date(yr,0);
 		dt.setMonth(M1);
 		dt.setDate(D1);
 		dt.setHours(h1);
@@ -96,35 +102,35 @@ if(typeof(ReadOnlyError)==="undefined") {
 		if(modify) {
 			return this.withPrecision(precision);
 		} else {
-			return new Time(this.milliseconds,this.precision);
+			return new Time(this.time,this.precision);
 		}
 	}
 	Time.prototype.lt = function(time,precision) {
-		return new Time(this,precision).valueOf() < new Time(time,precision).valueOf();
+		return new Time(this,precision).valueOf() < new Time(time.valueOf(),precision).valueOf();
 	}
 	Time.prototype.lte = function(time,precision) {
 		if(time===this) {
 			return true;
 		}
-		return new Time(this,precision).valueOf() <= new Time(time,precision).valueOf();
+		return new Time(this,precision).valueOf() <= new Time(time.valueOf(),precision).valueOf();
 	}
 	Time.prototype.eq = function(time,precision) {
 		if(time===this) {
 			return true;
 		}
-		return new Time(this,precision).valueOf() === new Time(time,precision).valueOf();
+		return new Time(this,precision).valueOf() === new Time(time.valueOf(),precision).valueOf();
 	}
 	Time.prototype.neq = function(time,precision) {
-		return new Time(this,precision).valueOf() !== new Time(time,precision).valueOf();
+		return new Time(this,precision).valueOf() !== new Time(time.valueOf(),precision).valueOf();
 	}
 	Time.prototype.gte = function(time,precision) {
 		if(time===this) {
 			return true;
 		}
-		return new Time(this,precision).valueOf() >= new Time(time,precision).valueOf();
+		return new Time(this,precision).valueOf() >= new Time(time.valueOf(),precision).valueOf();
 	}
 	Time.prototype.gt = function(time,precision) {
-		return new Time(this,precision).valueOf() > new Time(time,precision).valueOf();
+		return new Time(this,precision).valueOf() > new Time(time.valueOf(),precision).valueOf();
 	}
 	Time.prototype["in"] = function(timespan,precision) {
 		if(timespan instanceof TimeSpan) {
@@ -186,7 +192,7 @@ if(typeof(ReadOnlyError)==="undefined") {
 					var dt = new Date(this.valueOf());
 					var result = dt[key].apply(dt,arguments);
 					if(key.indexOf("set")===0) {
-						this.milliseconds = dt.getTime();
+						this.time = dt.getTime();
 					}
 					return result;
 			}
@@ -267,46 +273,37 @@ if(typeof(ReadOnlyError)==="undefined") {
 		return this.length;
 	}
 	Duration.prototype.lt = function(value,period) {
-		if(value instanceof Duration && this.length < value.length) {
-			return true;
-		}
-		period = (period ? period : "s");
-		return this.valueOf() / Duration.factors[period] < new Duration(value).valueOf()  / Duration.factors[period];
+		period = (period ? period : "ms");
+		return this.valueOf() / Duration.factors[period] < new Duration(value.valueOf()).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.lte = function(value,period) {
-		if(value===this || (value instanceof Duration && this.length <= value.length)) {
+		if(value===this) {
 			return true;
 		}
 		period = (period ? period : "ms");
-		return this.valueOf() / Duration.factors[period] <= new Duration(value).valueOf()  / Duration.factors[period];
+		return this.valueOf() / Duration.factors[period] <= new Duration(value.valueOf()).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.eq = function(value,period) {
-		if(value===this || (value instanceof Duration && this.length === value.length)) {
+		if(value===this) {
 			return true;
 		}
 		period = (period ? period : "ms");
-		return this.valueOf() / Duration.factors[period] === new Duration(value).valueOf()  / Duration.factors[period];
+		return this.valueOf() / Duration.factors[period] === new Duration(value.valueOf()).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.neq = function(value,period) {
-		if(value instanceof Duration && this.length !== value.length) {
-			return true;
-		}
 		period = (period ? period : "ms");
-		return this.valueOf() / Duration.factors[period] !== new Duration(value).valueOf()  / Duration.factors[period];
+		return this.valueOf() / Duration.factors[period] !== new Duration(value.valueOf()).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.gte = function(value,period) {
-		if(value===this || (value instanceof Duration && this.length >= value.length)) {
+		if(value===this) {
 			return true;
 		}
 		period = (period ? period : "ms");
-		return this.valueOf() / Duration.factors[period] >= new Duration(value).valueOf()  / Duration.factors[period];
+		return this.valueOf() / Duration.factors[period] >= new Duration(value.valueOf()).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.gt = function(value,period) {
-		if(value instanceof Duration && this.length > value.length) {
-			return true;
-		}
 		period = (period ? period : "ms");
-		return this.valueOf() / Duration.factors[period] > new Duration(value).valueOf()  / Duration.factors[period];
+		return this.valueOf() / Duration.factors[period] > new Duration(value.valueOf()).valueOf()  / Duration.factors[period];
 	}
 	Duration.prototype.atLeast = function() {
 		this.range = -1;
@@ -390,8 +387,8 @@ if(typeof(ReadOnlyError)==="undefined") {
 			new Time(this.ends,precision).valueOf() === new Time(value.ends,precision).valueOf();
 	}
 	TimeSpan.prototype.before = function(value,precision) {
-		var after = new TimeSpan(value);
-		return new Time(this.ends).lt(after.starts,precision);
+		var after = (value instanceof TimeSpan ? value.starts : value);
+		return new Time(this.ends).lt(after,precision);
 	}
 	TimeSpan.prototype.adjacentBefore = function(value,precision) {
 		var starts, ends = new Time(this.ends);
@@ -410,8 +407,8 @@ if(typeof(ReadOnlyError)==="undefined") {
 		return  starts.eq(ends,precision);
 	}
 	TimeSpan.prototype.after = function(value,precision) {
-		var before = new TimeSpan(value);
-		return new Time(this.starts).gt(before.ends,precision);
+		var before = (value instanceof TimeSpan ? value.ends : value);
+		return new Time(this.starts).gt(before,precision);
 	}
 	TimeSpan.prototype.adjacentAfter = function(value,precision) {
 		var starts = new Time(this.starts), ends;
@@ -440,50 +437,29 @@ if(typeof(ReadOnlyError)==="undefined") {
 	}
 	
 	var ExtendedDate = Date;
-	ExtendedDate.prototype.lt = function(value,precision) {
-		if(value instanceof TimeSpan) {
-			return value.after(this,precision);
-		}
-		return new Time(this,precision) < new Time(value,precision);
+	// http://www.pilcrow.nl/2012/09/javascript-date-isleapyear-and-getlastdayofmonth
+	//ExtendedDate functions. (Caveat: months start at 0!)
+	ExtendedDate.isLeapYear = function (iYear)
+	{
+		return new ExtendedDate(iYear, 1, 29).getDate() === 29;
 	}
-	ExtendedDate.prototype.lte = function(value,precision) {
-		if(value instanceof TimeSpan) {
-			return value.adjacentOrAfter(this,precision);
-		}
-		return new Time(this,precision) <= new Time(value,precision);
+	ExtendedDate.prototype.isLeapYear = function ()
+	{
+		return ExtendedDate.isLeapYear(this.getFullYear());
 	}
-	ExtendedDate.prototype.eq = function(value,precision) {
-		if(value===this) {
-			return true;
+	ExtendedDate.getLastDayOfMonth = function (iMonth, iYear)
+	{
+		if (/^([024679]|11)$/.test(iMonth)) {
+			return 31;
 		}
-		if(value instanceof Date && this.time===value.time) {
-			return true;
+		if (/^[358]$/.test(iMonth)) {
+			return 30;
 		}
-		if(value instanceof TimeSpan) {
-			return value.coincident(this,precision);
-		}
-		return new Time(this,precision).valueOf() === new Time(value,precision).valueOf();
-	}
-	ExtendedDate.prototype.eeq = function(value) {
-		return this===value;
-	}
-	ExtendedDate.prototype.neq = function(value,precision) {
-		return new Time(this,precision).valueOf() !== new Time(value,precision).valueOf();
-	}
-	ExtendedDate.prototype.neeq = function(value) {
-		return this!==value;
-	}
-	ExtendedDate.prototype.gte = function(value,precision) {
-		if(value instanceof TimeSpan) {
-			return value.adjacentOrBefore(this,precision);
-		}
-		return new Time(this,precision).valueOf() >= new Time(value,precision).valueOf();
-	}
-	ExtendedDate.prototype.gt = function(value,precision) {
-		if(value instanceof TimeSpan) {
-			return value.adjacentOrBefore(this,precision);
-		}
-		return new Time(this,precision).valueOf() >= new Time(value,precision).valueOf();
+		return ExtendedDate.isLeapYear(iYear) ? 29 : 28;
+	};
+	ExtendedDate.prototype.getLastDayOfMonth = function ()
+	{
+		return ExtendedDate.getLastDayOfMonth(this.getMonth(), this.getFullYear());
 	}
 	ExtendedDate.prototype.coincident = function(value,precision) {
 		if(value instanceof TimeSpan) {
@@ -506,7 +482,6 @@ if(typeof(ReadOnlyError)==="undefined") {
 		}
 		return this.eq(value,precision);
 	}
-	Date = ExtendedDate;
 	
 	if (typeof(module) !== 'undefined' && module.exports) {
 		module.exports.Time = Time;

@@ -1,6 +1,6 @@
 {
   "name": "about-time",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Javascript library for managing and comparing Time, Duration, TimeSpan objects in manners similar to Date",
   "main": "index.js",
   "isomorphic": true,
@@ -23,6 +23,7 @@
     "url": "https://github.com/anywhichway/about-time/issues"
   },
   "homepage": "https://github.com/anywhichway/about-time#readme",
+  "dependencies": {},
   "devDependencies": {
     "chai": "^3.4.1",
     "istanbul": "^0.4.1",

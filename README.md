@@ -9,7 +9,7 @@ The classes in about-time were originally part of [JOQULAR](http://www.github.co
 
 The design philosophy involves making objects more declarative than is typical with Javascript because we find this leads to more concise and less bug prone code. It also happens to be useful when indexing objects for JOQULAR or other JSON data stores. This is accomplished through the use of Object.defineProperty on class prototypes to create virtual properties with get and set functions hidden from the application implementor, e.g. 
 
-```Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,set:function(value) { this.setFullYear(value); },get:function() {return this.getFullYear();}).```
+```Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,configurable:true,set:function(value) { this.setFullYear(value); },get:function() {return this.getFullYear();}).```
 
 Note, the property is enumerable; however, since it is not semantically necessary for serializing and restoring, a toJSON method is also defined, i.e.
 
@@ -44,9 +44,11 @@ They all also support the comparison functions: *.lt, .lte, .eq, .neq, .gte, .gt
 
 *new Time([(milliseconds|Date|TimeSpan|datestring)=new Date()[,precision)* - Constructs a Time instance from a value of one of the types at the provided precision, "Y","M","D","h","m","s","ms". The time is represented internally as the number of milliseconds since January 1st, 1970. The values -Infinity and Infinity are legal for milliseconds. If no first argument is provided, the Time defaults to the current time by using new Date().
 
+Precision boundaries exist at the lowest number of milliseconds required to represent the Time; hence, a year precision has less milliseconds than a month precision.
+
 ### Properties
 
-*.milliseconds* - The number of milliseconds since January 1, 1970 used as a basis for computing *.valueOf()* at *.precision*.
+*.time* - The number of milliseconds since January 1, 1970 used as a basis for computing *.valueOf()* at *.precision*.
 
 *.precision* - one of "Y","M","D","h","m","s","ms". 
 
@@ -158,6 +160,8 @@ The following properties are READONLY:
 
 
 # Updates (reverse chronological order)
+
+2016-01-03 v0.1.2 Clarified and made consistent semantics of Time precision. Renamed *.milliseconds* property to *.time* so comparisons can be done at the millisecond level.
 
 2015-12-31 v0.1.1 Removed Date object extensions that are not dependent on Time, Duration, TimeSpan. Moved Date object extensions from joex to this file where such extensions depend on Time, Duration, or TimeSpan
 
