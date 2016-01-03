@@ -19,7 +19,7 @@ Note, the property is enumerable; however, since it is not semantically necessar
 
 npm install about-time
 
-The index.js and package.json files are compatible with node-require so that about-time can be served directly to the browser from the node-modules/about-time directory when using node Express.
+The index.js and package.json files are compatible with [node-require](http://www.github.com/anywhichway/joqular) so that about-time can be served directly to the browser from the node-modules/about-time directory when using node Express.
 
 Time, Duration, and TimeSpan become global objects when loaded in a web browser. To access them in node.js use the normal require syntax, e.g.
 
