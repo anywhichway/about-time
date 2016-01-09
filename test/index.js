@@ -72,6 +72,16 @@ describe('Time', function() {
 	  	}
 	  	expect(result).to.be.instanceof(RangeError);
   });
+  it('.toPrecision should modify by default ', function() {
+	  	var t1 = new Time(1);
+	  	var result = t1.toPrecision("ms");
+	  	expect(result===t1).to.be.true;
+  });
+  it('.toPrecision should return copy when modify===false ', function() {
+	  	var t1 = new Time(1);
+	  	var result = t1.toPrecision("ms",false);
+	  	expect(result!==t1).to.be.true;
+});
   it('.toPrecision("Y") should result in instance with zero seconds ', function() {
 	  	var t1 = new Time();
 	  	t1.toPrecision("Y",true)
@@ -184,6 +194,14 @@ describe('Time', function() {
 	  it('.gt should return false if t1 is not > t2 ', function() {
 		  	var t2 = new Time(1), t1 = new Time(0);
 		  	expect(t1.gt(t2)).to.be.false;
+	  });
+	  it('.in should be in TimeSpan ', function() {
+		  	var t1= new Time(), ts1 = new TimeSpan();
+		  	expect(t1.in(ts1)).to.be.true;
+	  });
+	  it('.in should be in something convertible to same Time ', function() {
+		  	var t1= new Time(1);
+		  	expect(t1.in(t1.valueOf())).to.be.true;
 	  });
   });
 });

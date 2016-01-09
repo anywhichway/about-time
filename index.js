@@ -134,7 +134,7 @@ if(typeof(ReadOnlyError)==="undefined") {
 	}
 	Time.prototype["in"] = function(timespan,precision) {
 		if(timespan instanceof TimeSpan) {
-			return value.contains(this);
+			return timespan.contains(this);
 		}
 		return new Time(this,precision).valueOf() === new Time(timespan,precision).valueOf();
 	}
