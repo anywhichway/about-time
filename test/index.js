@@ -470,7 +470,7 @@ describe('TimeSpan ', function() {
 	});
 	it('ts1 is before ts2',function() {
 			 var ts1 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0)), ts2 = new TimeSpan((new Date(2016,0,1,0,0,0,0)).getTime()+1,new Date(2017,0,1,0,0,0,0));
-			 expect(ts1.adjacent(ts2)).to.equal(-1);
+			 expect(ts1.before(ts2)).to.true;
 	});
 	it('ts1 and ts2 are not adjacent',function() {
 		 var ts1 = new TimeSpan(new Date(2015,0,1,0,0,0,0),new Date(2016,0,1,0,0,0,0)), ts2 = new TimeSpan(new Date(2018,0,1,0,0,0,0),new Date(2019,0,1,0,0,0,0));
@@ -482,7 +482,7 @@ describe('TimeSpan ', function() {
 	});
 	it('ts1 is after ts2',function() {
 		 var ts1 = new TimeSpan((new Date(2017,0,1,0,0,0,0)).getTime()+1), ts2 = new TimeSpan(null,new Date(2017,0,1,0,0,0,0));
-		 expect(ts1.adjacent(ts2)).to.equal(1);
+		 expect(ts1.after(ts2)).to.be.true;
 	});
 	it('ts1 is adjacentAfter ts2',function() {
 		 var ts1 = new TimeSpan(new Date(2018,0,1,0,0,0,0)), ts2 = new TimeSpan(null,new Date(2017,0,1,0,0,0,0));
