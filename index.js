@@ -3,7 +3,7 @@
 //     Copyright (c) 2015 Simon Y. Blackwell, AnyWhichWay
 //     MIT License - http://opensource.org/licenses/mit-license.php
 
-if(typeof(ReadOnlyError)==="undefined") {
+if(typeof(AccessError)==="undefined") {
 	function AccessError(type,message) {
 		this.name = "AccessError";
 		this.message = type + (message ? message : "");

@@ -1,11 +1,11 @@
 {
   "name": "about-time",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Javascript library for managing and comparing Time, Duration, TimeSpan objects in manners similar to Date",
   "main": "index.js",
   "isomorphic": true,
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec"
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -report lcov -- -R spec"
   },
   "repository": {
     "type": "git",
