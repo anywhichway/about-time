@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "4"
+  - "stable"
 addons:
     code_climate:
         repo_token:  c1ae368785a9fc76fa1c280bf8bde8b80f648ca4392ef911428e0ccf1f2b948a
