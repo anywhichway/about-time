@@ -13,7 +13,7 @@ TimeSpans are stored as starting and ending milliseconds which include -Infinity
 [![Test Coverage](https://codeclimate.com/github/anywhichway/about-time/badges/coverage.svg)](https://codeclimate.com/github/anywhichway/about-time/coverage)
 [![Issue Count](https://codeclimate.com/github/anywhichway/about-time/badges/issue_count.svg)](https://codeclimate.com/github/anywhichway/about-time)
 
-[![NPM](https://nodei.co/npm/jovial.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/<about-time>/)
+[![NPM](https://nodei.co/npm/about-time.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/<about-time>/)
 
 ### Philosophy
 
