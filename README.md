@@ -9,6 +9,11 @@ TimeSpans are stored as starting and ending milliseconds which include -Infinity
 
 
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/44679d69e6a749d29cb67c75b2212951)](https://www.codacy.com/app/syblackwell/about-time)
+[![Code Climate](https://codeclimate.com/github/anywhichway/about-time/badges/gpa.svg)](https://codeclimate.com/github/anywhichway/about-time)
+[![Test Coverage](https://codeclimate.com/github/anywhichway/about-time/badges/coverage.svg)](https://codeclimate.com/github/anywhichway/about-time/coverage)
+[![Issue Count](https://codeclimate.com/github/anywhichway/about-time/badges/issue_count.svg)](https://codeclimate.com/github/anywhichway/about-time)
+
+[![NPM](https://nodei.co/npm/jovial.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/<about-time>/)
 
 ### Philosophy
 
@@ -20,7 +25,7 @@ The design philosophy involves making objects more declarative than is typical w
 
 Note, the property is enumerable; however, since it is not semantically necessary for serializing and restoring, a toJSON method is also defined, i.e.
 
-```Time.prototype.toJSON = function() { return {time: this.time, precisions: this.precision} }```
+```Time.prototype.toJSON = function() { return {time: this.time, precision: this.precision} }```
 
 # Installation
 
