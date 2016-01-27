@@ -1,5 +1,5 @@
 # about-time
-About-time is Javascript browser and server library for managing, comparing, and doing arithmetic on Time, Duration, TimeSpan objects in manners similar to and beyond those provided by Date.
+About-time is JavaScript browser and server library for managing, comparing, and doing arithmetic on Time, Duration, TimeSpan objects in manners similar to and beyond those provided by Date.
 
 Time supports all the methods supported by Date, declarative access to all get and set values, e.g. */<instance/>.fullYear* is the same as getFullYear(), and adds the capability to represent only a specific precision, e.g. "Y", "M", "h", plus the ability to determine if it is within a given TimeSpan.
 
@@ -19,7 +19,7 @@ TimeSpans are stored as starting and ending milliseconds which include -Infinity
 
 The classes in about-time were originally part of [JOQULAR](http://www.github.com/anywhichway/joqular) v1 in order to support temporal database logic. Because they are generically useful and in order to simplify the code base of JOQULAR in preparation for release of JOQULAR v2, they were extracted into their own library and re-written.
 
-The design philosophy involves making objects more declarative than is typical with Javascript because we find this leads to more concise and less bug prone code. It also happens to be useful when indexing objects for JOQULAR or other JSON data stores. This is accomplished through the use of Object.defineProperty on class prototypes to create virtual properties with get and set functions, e.g. 
+The design philosophy involves making objects more declarative than is typical with JavaScript because we find this leads to more concise and less bug prone code. It also happens to be useful when indexing objects for JOQULAR or other JSON data stores. This is accomplished through the use of Object.defineProperty on class prototypes to create virtual properties with get and set functions, e.g. 
 
 ```Object.defineProperty(Time.prototype,"fullYear",{enumerable:true,configurable:true,set:function(value) { this.setFullYear(value); },get:function() {return this.getFullYear();}).```
 
