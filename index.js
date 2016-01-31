@@ -14,7 +14,6 @@ if(typeof(AccessError)==="undefined") {
 }
 (function() {
 	"use strict";
-	var _global = this;
 	
 	function Time(value,precision) {
 		if(value==null) {
@@ -190,6 +189,7 @@ if(typeof(AccessError)==="undefined") {
 		if(!Time.prototype[key]) {
 			Time.prototype[key] = function() {
 					var dt = new Date(this.valueOf());
+					dt[key].apply(dt,arguments); // some weird Chrome optimization sometimes does not work the first time this is invoked, so do it twice!
 					var result = dt[key].apply(dt,arguments);
 					if(key.indexOf("set")===0) {
 						this.time = dt.getTime();
@@ -483,16 +483,16 @@ if(typeof(AccessError)==="undefined") {
 		return this.eq(value,precision);
 	}
 	
-	if (typeof(module) !== 'undefined' && module.exports) {
-		module.exports.Time = Time;
-		module.exports.Duration = Duration;
-		module.exports.TimeSpan = TimeSpan;
+	if (this.exports) {
+		this.exports.Time = Time;
+		this.exports.Duration = Duration;
+		this.exports.TimeSpan = TimeSpan;
 	} else if (typeof define === 'function' && define.amd) {
 		// Publish as AMD module
 		define(function() {return {Time:Time,Duration:Duration,TimeSpan:TimeSpan};});
 	} else {
-		_global.Time = Time;
-		_global.Duration = Duration;
-		_global.TimeSpan = TimeSpan;
+		this.Time = Time;
+		this.Duration = Duration;
+		this.TimeSpan = TimeSpan;
 	}
-}).call(this);
+}).call((typeof(window)!=='undefined' ? window : (typeof(module)!=='undefined' ? module : null)));

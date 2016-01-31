@@ -33,6 +33,8 @@ npm install about-time
 
 The index.js and package.json files are compatible with [node-require](http://www.github.com/anywhichway/node-require) so that about-time can be served directly to the browser from the node-modules/about-time directory when using node Express.
 
+You can also just load the `about-time.js` file from the browser directory at http://www.github.com/anywhichway/about-time.
+
 Time, Duration, and TimeSpan become global objects when loaded in a web browser. To access them in node.js use the normal require syntax, e.g.
 
 ```
@@ -172,6 +174,8 @@ The following properties are READONLY:
 
 
 # Updates (reverse chronological order)
+
+2016-01-31 v0.1.4 Added browserified version. Addressed issue where Chrome would occasionally return wrong month due to its own optimizations conflicting with about-time.
 
 2016-01-09 v0.1.3 Added extensive unit tests. Corrected error with Time.prototype.in when testing against TimeSpan. Enhanced documentation.
 

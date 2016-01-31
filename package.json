@@ -1,12 +1,15 @@
 {
   "name": "about-time",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Javascript library for managing and comparing Time, Duration, TimeSpan objects in manners similar to Date",
   "main": "index.js",
+  "client": "browser/about-time.js",
   "isomorphic": true,
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -report lcov -- -R spec"
-  },
+    "test": "istanbul cover node_modules/mocha/bin/_mocha --report lcov -- -R spec",
+    "browserify": "browserify index.js -o browser/about-time.js",
+    "minify": "minify browser/about-time.js"
+   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anywhichway/about-time.git"

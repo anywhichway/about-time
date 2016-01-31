@@ -1,4 +1,4 @@
-var expect, Validator;
+var expect;
 if(typeof(window)==="undefined") {
 	expect = require("chai").expect;
 	Time = require('../index.js').Time;
